@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "12406294920",
+    "project_id": "worldofwood-fc27b",
+    "storage_bucket": "worldofwood-fc27b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:12406294920:android:a0c78974ae199da97f123d",
+        "android_client_info": {
+          "package_name": "com.example.world_of_wood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "12406294920-um3ln4q4t8vfu19bs7678p58rjov37j7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbJN8vV9aiYylzoSRTMjBdPO8-ECj5Ucs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "12406294920-um3ln4q4t8vfu19bs7678p58rjov37j7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "12406294920-h59qpvqlskr38fe2e50s69u2h53h1ss3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.worldOfWood"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

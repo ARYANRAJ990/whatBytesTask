@@ -1,0 +1,12 @@
+specVersion: "v1beta"
+serviceId: "World_of_wood"
+location: "us-central1"
+schema:
+  source: "./schema"
+  datasource:
+    postgresql:
+      database: "fdcdb"
+      cloudSql:
+        instanceId: "World_of_wood-fdc"
+      # schemaValidation: "COMPATIBLE"
+connectorDirs: ["./connector"]
