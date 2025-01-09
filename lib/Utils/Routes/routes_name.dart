@@ -5,4 +5,5 @@ class RoutesName{
   static const String userProfile = 'User_profile';
   static const String userdetails = 'user_details';
   static const String terms = 'terms_conditions';
+  static const String PointsRedeem = 'points_redeem';
 }

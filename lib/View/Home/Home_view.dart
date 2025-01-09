@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:world_of_wood/Resources/colors.dart';
 
-import 'Side_navbar.dart';
+import '../../Utils/Routes/routes_name.dart';
+import '../Side_navbar.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -12,11 +13,30 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   int points = 100;
+  int _selectedIndex = 0; // Track the selected index
+
+  // Function to handle bottom navigation taps
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    if (_selectedIndex == 0) {
+      // Points History action
+      print('Points History button pressed');
+
+    } else if (_selectedIndex == 1) {
+      // Points Redemption action
+      print('Points Redemption button pressed');
+      Navigator.pushNamed(context, RoutesName.PointsRedeem);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Points'),
+      appBar: AppBar(
+        title: const Text('Points'),
         backgroundColor: Appcolors.brown,
         foregroundColor: Appcolors.white,
       ),
@@ -59,31 +79,22 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
       ),
-      bottomNavigationBar: SizedBox(
-        height: 70,
-        child: BottomAppBar(
-          child: Center(
-            child: ElevatedButton.icon(
-              onPressed: () {
-                // Your action here
-                print('History button pressed');
-              },
-              icon: const Icon(Icons.history, size: 30),
-              label: const Text(
-                'Points History',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
-              ),
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-                backgroundColor: Appcolors.brown, // Button background color
-                foregroundColor: Colors.white, // Text and icon color
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ),
-            ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.history),
+            label: 'Points History',
           ),
-        ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.redeem),
+            label: 'Points Redeemption',
+          ),
+        ],
+        selectedItemColor: Appcolors.brown,
+        unselectedItemColor: Colors.grey,
+        backgroundColor: Colors.white,
       ),
     );
   }
