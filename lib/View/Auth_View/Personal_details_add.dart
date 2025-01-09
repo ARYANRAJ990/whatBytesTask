@@ -1,9 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
-import '../../Utils/Routes/routes_name.dart';
-import '../../Utils/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import 'package:world_of_wood/Resources/colors.dart';
+import 'package:world_of_wood/Utils/constrainst/Text_Style.dart';
+import '../../Utils/constrainst/Button_Style.dart';
+import '../../View_Model/UserView_Model.dart';
 
 class UserDetailsForm extends StatefulWidget {
   @override
@@ -11,92 +11,128 @@ class UserDetailsForm extends StatefulWidget {
 }
 
 class _UserDetailsFormState extends State<UserDetailsForm> {
+  final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
   final _aadhaarController = TextEditingController();
 
-  // Initialize Firebase
-  Future<void> _initializeFirebase() async {
-    await Firebase.initializeApp(); // Ensure Firebase is initialized
-  }
-
-  // Function to save user details to Firestore
-  void _saveUserDetails() async {
-    String name = _nameController.text.trim();
-    String phone = _phoneController.text.trim();
-    String aadhaar = _aadhaarController.text.trim();
-
-    // Ensure fields are not empty
-    if (name.isNotEmpty && phone.isNotEmpty && aadhaar.isNotEmpty) {
-      try {
-        // Save to Firestore
-        await FirebaseFirestore.instance.collection('users').add({
-          'name': name,
-          'phone': phone,
-          'aadhaar': aadhaar,
-          'created_at': Timestamp.now(),
-        });
-
-        // Show confirmation message
-        Utils.flushBarSuccessMessage( 'User details saved successfully',context);
-
-        // Navigate to Home Page
-        Navigator.pushReplacementNamed(context,RoutesName.home);
-
-        // Clear fields after saving
-        _nameController.clear();
-        _phoneController.clear();
-        _aadhaarController.clear();
-      } catch (e) {
-        // Error handling
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Error saving data: $e'),
-        ));
-      }
-    } else {
-      // Show error message if fields are empty
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Please fill in all fields'),
-      ));
-    }
-  }
-
   @override
-  void initState() {
-    super.initState();
-    _initializeFirebase(); // Ensure Firebase is initialized when the widget is created
+  void dispose() {
+    _nameController.dispose();
+    _phoneController.dispose();
+    _aadhaarController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final userViewModel = Provider.of<UserViewModel>(context);
+
     return Scaffold(
-      appBar: AppBar(title: Text('Add Personal Details')),
+      backgroundColor: Appcolors.white,
+      appBar: AppBar(
+        title: Text(
+          'Add Your Details',
+          style: AppbarText,
+        ),
+        backgroundColor: Appcolors.brown,
+        foregroundColor: Appcolors.white,
+      ),
       body: Padding(
         padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextField(
-              controller: _nameController,
-              decoration: InputDecoration(labelText: 'Name'),
-            ),
-            TextField(
-              controller: _phoneController,
-              decoration: InputDecoration(labelText: 'Phone Number'),
-              keyboardType: TextInputType.phone,
-            ),
-            TextField(
-              controller: _aadhaarController,
-              decoration: InputDecoration(labelText: 'Aadhaar Card Number'),
-              keyboardType: TextInputType.number,
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _saveUserDetails,
-              child: Text('Save Details'),
-            ),
-          ],
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Image Widget
+              Image.asset(
+                'images/details.png',
+                height: 220,
+                width: 320,
+              ),
+              SizedBox(height: 10),
+
+              // Name TextFormField
+              _buildTextFormField(
+                controller: _nameController,
+                label: 'Name',
+                validator: (value) =>
+                value!.isEmpty ? 'Please enter your name' : null,
+              ),
+
+              // Phone Number TextFormField
+              _buildTextFormField(
+                controller: _phoneController,
+                label: 'Phone Number',
+                keyboardType: TextInputType.phone,
+                validator: (value) {
+                  if (value!.isEmpty) return 'Please enter your phone number';
+                  if (!RegExp(r'^\d{10}$').hasMatch(value)) {
+                    return 'Please enter a valid 10-digit phone number';
+                  }
+                  return null;
+                },
+              ),
+
+              // Aadhaar Card Number TextFormField
+              _buildTextFormField(
+                controller: _aadhaarController,
+                label: 'Aadhaar Card Number',
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value!.isEmpty) return 'Please enter your Aadhaar number';
+                  if (value.length != 12) {
+                    return 'Aadhaar number must be 12 digits';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 20),
+
+              // Save Details Button
+              Center(
+                child: userViewModel.isLoading
+                    ? CircularProgressIndicator()
+                    : ElevatedButton(
+                  style: LSFbutton_Style,
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      await userViewModel.saveUserDetails(
+                        name: _nameController.text.trim(),
+                        phone: _phoneController.text.trim(),
+                        aadhaar: _aadhaarController.text.trim(),
+                        context: context,
+                      );
+                    }
+                  },
+                  child: Text('Save Details', style: KTextStyle),
+                ),
+              ),
+            ],
+          ),
         ),
+      ),
+    );
+  }
+
+  // Helper function to build TextFormField
+  Widget _buildTextFormField({
+    required TextEditingController controller,
+    required String label,
+    TextInputType? keyboardType,
+    required String? Function(String?) validator,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: TextFormField(
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(),
+        ),
+        keyboardType: keyboardType,
+        validator: validator,
       ),
     );
   }

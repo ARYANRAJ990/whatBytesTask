@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:world_of_wood/View_Model/UserView_Model.dart';
 
 import 'Utils/Routes/routes.dart';
 import 'Utils/Routes/routes_name.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         return MultiProvider(
           providers: [
             ChangeNotifierProvider(create: (_) => AuthViewModel()),
+            ChangeNotifierProvider(create: (_) => UserViewModel()),
           ],
           child: MaterialApp(
             title: 'World of Wood',
