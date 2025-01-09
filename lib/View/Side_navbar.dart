@@ -17,10 +17,9 @@ class NavBar extends StatelessWidget {
           Consumer<AuthViewModel>(
             builder: (context, authViewModel, child) {
               final userName = authViewModel.currentUser?.displayName ?? "Guest";
-
               return DrawerHeader(
                 decoration: const BoxDecoration(
-                  color: Appcolors.lightyellow,
+                  color: Appcolors.brown,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,7 +29,7 @@ class NavBar extends StatelessWidget {
                       "Welcome!!",
                       style: GoogleFonts.pacifico(
                         textStyle: const TextStyle(
-                          color: Appcolors.black,
+                          color: Appcolors.white,
                           fontSize: 22,
                         ),
                       ),
@@ -40,7 +39,7 @@ class NavBar extends StatelessWidget {
                       userName,
                       style: GoogleFonts.pacifico(
                         textStyle: const TextStyle(
-                          color: Appcolors.black,
+                          color: Appcolors.white,
                           fontSize: 25,
                         ),
                       ),
@@ -55,7 +54,7 @@ class NavBar extends StatelessWidget {
             title: const Text('My Account'),
             onTap: () {
               // Handle navigation to My Account
-              Navigator.pushReplacementNamed(context, RoutesName.userProfile);
+              Navigator.pushNamed(context, RoutesName.userdetails);
             },
           ),
           ListTile(
@@ -64,6 +63,14 @@ class NavBar extends StatelessWidget {
             onTap: () {
               // Handle navigation to Settings
               Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.priority_high),
+            title: const Text('Terms and Conditions'),
+            onTap: () {
+              // Handle navigation to History
+              Navigator.pushNamed(context, RoutesName.terms);
             },
           ),
           ListTile(

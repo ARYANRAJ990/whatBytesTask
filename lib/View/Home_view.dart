@@ -16,7 +16,10 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Points')),
+      appBar: AppBar(title: const Text('Points'),
+        backgroundColor: Appcolors.brown,
+        foregroundColor: Appcolors.white,
+      ),
       drawer: SizedBox(
         width: MediaQuery.of(context).size.width * 0.65,
         child: ClipRRect(
