@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../Model/note_model.dart';
 import '../../View_Model/notes_viewmodel.dart';
+import '../Side_navbar.dart';
 
 class NotesFeedPage extends StatefulWidget {
   @override
@@ -70,6 +71,16 @@ class _NotesFeedPageState extends State<NotesFeedPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Notes Feed"),
+      ),
+      drawer: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.65,
+        child: ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topRight: Radius.circular(30),
+            bottomRight: Radius.circular(30),
+          ),
+          child: const NavBar(),
+        ),
       ),
       body: StreamBuilder<List<NoteModel>>(
         stream: notesViewModel.getNotes(),
