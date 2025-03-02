@@ -61,11 +61,11 @@ class PointsRedeemptionView extends StatelessWidget {
       ],
     );
   }
-
   // Second Table (Home Appliances)
   Table _buildTable2() {
     return Table(
-      border: TableBorder.all(color: Appcolors.brown),
+      border: TableBorder.all(color: Appcolors.black
+      ),
       columnWidths: {0: FlexColumnWidth(3), 1: FlexColumnWidth(2)},
       children: [
         _buildTableRow(['Destination', 'Points Per Ticket'], isHeader: true),

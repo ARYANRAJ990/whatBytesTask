@@ -41,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final authViewModel = Provider.of<AuthViewModel>(context, listen: false);
     if (authViewModel.currentUser != null) {
       // If user is signed in, navigate to Home
-      Navigator.pushReplacementNamed(context, RoutesName.home);
+      Navigator.pushReplacementNamed(context, RoutesName.notes);
     } else {
       // If user is not signed in, navigate to Login
       Navigator.pushReplacementNamed(context, RoutesName.login);

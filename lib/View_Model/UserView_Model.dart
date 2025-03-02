@@ -58,8 +58,8 @@ class UserViewModel with ChangeNotifier {
       // Save to Firestore with user ID
       await _firestore.collection('users').doc(userId).set({
         'name': name,
-        'phone': phone,
-        'aadhaar': aadhaar,
+       // 'phone': phone,
+      //  'aadhaar': aadhaar,
         'created_at': Timestamp.now(),
       });
 
@@ -67,7 +67,7 @@ class UserViewModel with ChangeNotifier {
       Utils.flushBarSuccessMessage('User details saved successfully', context);
 
       // Navigate to Home Page
-      Navigator.pushNamed(context, RoutesName.home);
+      Navigator.pushNamed(context, RoutesName.notes);
     } catch (e) {
       Utils.flushBarErrorMessage('Error saving data: $e', context);
     } finally {

@@ -15,7 +15,7 @@ class AuthViewModel with ChangeNotifier {
   User? get currentUser => _auth.currentUser;
   String? get userEmail => currentUser?.email;
 
-  // Check if user exists
+  // Check if user exists in Firestore
   Future<bool> checkUserExists() async {
     try {
       final user = _auth.currentUser;
@@ -36,18 +36,14 @@ class AuthViewModel with ChangeNotifier {
     notifyListeners();
 
     try {
-      // Google Sign-In Process
-      User? user = await FirebaseGoogleService().signInWithGoogle();
+      User? user = await _firebaseGoogleService.signInWithGoogle();
 
       if (user != null) {
-        // Check if the user email exists in Firestore
         final doc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
 
         if (doc.exists) {
-          // If user details exist, navigate to Home Page
-          Navigator.pushReplacementNamed(context, RoutesName.home);
+          Navigator.pushReplacementNamed(context, RoutesName.notes);
         } else {
-          // If no user details, navigate to Add User Details Page
           Navigator.pushNamed(context, RoutesName.userProfile);
         }
       }
@@ -60,22 +56,100 @@ class AuthViewModel with ChangeNotifier {
     }
   }
 
-  // Check if the user has entered their details
-  Future<bool> _checkIfUserDetailsExist() async {
+  // Email & Password Sign-Up
+  Future<void> signUpWithEmail(String email, String password, BuildContext context) async {
     try {
-      final user = _auth.currentUser;
+      isLoading = true;
+      notifyListeners();
+
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      User? user = userCredential.user;
+
       if (user != null) {
-        final doc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
-        if (doc.exists && doc.data() != null) {
-          // Check if all the necessary fields are present
-          final data = doc.data();
-          return data?['name'] != null && data?['phone'] != null && data?['aadhaar'] != null;
-        }
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+          'email': user.email,
+          'createdAt': DateTime.now().toIso8601String(),
+        });
+
+        Navigator.pushReplacementNamed(context, RoutesName.notes);
       }
-      return false;
+    } on FirebaseAuthException catch (e) {
+      isLoading = false;
+      notifyListeners();
+
+      print("Firebase Auth Error: ${e.code}");
+
+      if (e.code == 'email-already-in-use') {
+        Utils.flushBarErrorMessage('This email is already registered. Please log in.', context);
+      } else if (e.code == 'weak-password') {
+        Utils.flushBarErrorMessage('The password is too weak. Please use a stronger password.', context);
+      } else if (e.code == 'invalid-email') {
+        Utils.flushBarErrorMessage('Invalid email format. Please enter a valid email.', context);
+      } else {
+        Utils.flushBarErrorMessage('Error: ${e.message}', context);
+      }
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  // Email & Password Login
+  Future<void> signInWithEmail(String email, String password, BuildContext context) async {
+    try {
+      isLoading = true;
+      notifyListeners();
+
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      Navigator.pushReplacementNamed(context, RoutesName.notes);
+
+    } on FirebaseAuthException catch (e) {
+      isLoading = false;
+      notifyListeners();
+
+      print("Firebase Auth Error: ${e.code}");
+
+      if (e.code == 'wrong-password') {
+        Utils.flushBarErrorMessage('Incorrect password. Please try again.', context);
+      } else if (e.code == 'user-not-found') {
+        Utils.flushBarErrorMessage('No account found with this email.', context);
+      } else if (e.code == 'invalid-credential') {
+        Utils.flushBarErrorMessage('Invalid email or password. Please check and try again.', context);
+      } else {
+        Utils.flushBarErrorMessage('Error: ${e.message}', context);
+      }
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  // 🔹 Reset Password
+  Future<void> resetPassword(String email, BuildContext context) async {
+    try {
+      // Validate email format
+      if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$').hasMatch(email)) {
+        Utils.flushBarErrorMessage("Enter a valid email address.", context);
+        return;
+      }
+
+      // Check if email exists in Firestore
+      var querySnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .where('email', isEqualTo: email)
+          .get();
+
+      if (querySnapshot.docs.isEmpty) {
+        Utils.flushBarErrorMessage("This email is not registered.", context);
+        return;
+      }
+
+      // Send reset email if user exists
+      await _auth.sendPasswordResetEmail(email: email);
+      Utils.flushBarErrorMessage('Password reset link sent to $email', context);
+
     } catch (e) {
-      print("Error checking user details: $e");
-      return false;
+      Utils.flushBarErrorMessage("An unexpected error occurred.", context);
     }
   }
 
@@ -88,6 +162,18 @@ class AuthViewModel with ChangeNotifier {
       Navigator.pushNamedAndRemoveUntil(context, RoutesName.login, (route) => false);
     } catch (e) {
       print("Error during Google Sign-Out: $e");
+    }
+  }
+
+  // Email & Password Logout
+  Future<void> signOut(BuildContext context) async {
+    try {
+      await _auth.signOut();
+      _currentUser = null;
+      notifyListeners();
+      Navigator.pushNamedAndRemoveUntil(context, RoutesName.login, (route) => false);
+    } catch (e) {
+      print("Error during Sign-Out: $e");
     }
   }
 }

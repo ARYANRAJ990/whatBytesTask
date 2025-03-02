@@ -8,6 +8,7 @@ import 'package:world_of_wood/View_Model/UserView_Model.dart';
 import 'Utils/Routes/routes.dart';
 import 'Utils/Routes/routes_name.dart';
 import 'View_Model/AuthView_Model.dart';
+import 'View_Model/notes_viewmodel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
           providers: [
             ChangeNotifierProvider(create: (_) => AuthViewModel()),
             ChangeNotifierProvider(create: (_) => UserViewModel()),
+            ChangeNotifierProvider(create: (_) => NotesViewModel()),
           ],
           child: MaterialApp(
             title: 'World of Wood',

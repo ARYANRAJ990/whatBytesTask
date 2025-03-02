@@ -74,22 +74,7 @@ class _UserDetailsFormState extends State<UserDetailsForm> {
                   return null;
                 },
               ),
-
-              // Aadhaar Card Number TextFormField
-              _buildTextFormField(
-                controller: _aadhaarController,
-                label: 'Aadhaar Card Number',
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value!.isEmpty) return 'Please enter your Aadhaar number';
-                  if (value.length != 12) {
-                    return 'Aadhaar number must be 12 digits';
-                  }
-                  return null;
-                },
-              ),
               SizedBox(height: 20),
-
               // Save Details Button
               Center(
                 child: userViewModel.isLoading
