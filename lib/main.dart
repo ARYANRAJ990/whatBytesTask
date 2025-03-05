@@ -3,12 +3,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:world_of_wood/View_Model/UserView_Model.dart';
 
 import 'Utils/Routes/routes.dart';
 import 'Utils/Routes/routes_name.dart';
 import 'View_Model/AuthView_Model.dart';
-import 'View_Model/notes_viewmodel.dart';
+import 'View_Model/UserView_Model.dart';
+import 'View_Model/taskViewModel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,10 +36,10 @@ class MyApp extends StatelessWidget {
           providers: [
             ChangeNotifierProvider(create: (_) => AuthViewModel()),
             ChangeNotifierProvider(create: (_) => UserViewModel()),
-            ChangeNotifierProvider(create: (_) => NotesViewModel()),
+            ChangeNotifierProvider(create: (_) => TasksViewModel()),
           ],
           child: MaterialApp(
-            title: 'World of Wood',
+            title: 'Finworth task',
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,

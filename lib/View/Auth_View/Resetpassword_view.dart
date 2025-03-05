@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:world_of_wood/View_Model/AuthView_Model.dart';
 import '../../Resources/colors.dart';
 import '../../Utils/constrainst/Button_Style.dart';
 import '../../Utils/constrainst/Text_Style.dart';
 import '../../Utils/fluttertoast.dart';
+import '../../View_Model/AuthView_Model.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   @override
@@ -35,7 +35,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     style: TextStyle(
                       fontSize: 35,
                       fontWeight: FontWeight.bold,
-                      color: Appcolors.lightbrown,
+                      color: Appcolors.lightblue,
                     ),
                   ),
                   Text(
@@ -43,7 +43,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     style: TextStyle(
                       fontSize: 35,
                       fontWeight: FontWeight.bold,
-                      color: Appcolors.brown,
+                      color: Appcolors.black,
                     ),
                   ),
                 ],
@@ -113,7 +113,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       },
                       child: Text(
                         "Back to Login",
-                        style: TextStyle(color: Appcolors.brown),
+                        style: TextStyle(color: Appcolors.lightblue),
                       ),
                     ),
                   ],

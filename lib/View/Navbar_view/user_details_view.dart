@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:world_of_wood/Resources/colors.dart';
-import 'package:world_of_wood/Utils/Routes/routes_name.dart';
-import 'package:world_of_wood/Utils/constrainst/Text_Style.dart';
-import 'package:world_of_wood/View_Model/AuthView_Model.dart';
+import '../../Resources/colors.dart';
+import '../../Utils/Routes/routes_name.dart';
 import '../../Utils/constrainst/Button_Style.dart';
+import '../../Utils/constrainst/Text_Style.dart';
+import '../../View_Model/AuthView_Model.dart';
 
 class UserDetails extends StatelessWidget {
   @override
@@ -16,7 +16,7 @@ class UserDetails extends StatelessWidget {
       backgroundColor: Appcolors.white,
       appBar: AppBar(
         title: Text('Your Details', style: AppbarText),
-        backgroundColor: Appcolors.brown,
+        backgroundColor: Appcolors.lightblue,
         foregroundColor: Appcolors.white,
       ),
       body: FutureBuilder<DocumentSnapshot>(
@@ -46,7 +46,7 @@ class UserDetails extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center, // Center vertically
                   crossAxisAlignment: CrossAxisAlignment.center, // Center horizontally
                   children: [
-                    Icon(Icons.person, size: 200, color: Appcolors.brown),
+                    Icon(Icons.person, size: 200, color: Appcolors.lightblue),
                     Text(
                       'Name: $name',
                       style: KTextStyle2.copyWith(fontSize: 18),

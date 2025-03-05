@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:world_of_wood/Resources/colors.dart';
+
+import '../../Resources/colors.dart';
 
 class TermsAndConditionsView extends StatelessWidget {
   const TermsAndConditionsView({super.key});

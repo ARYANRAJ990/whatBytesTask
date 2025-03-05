@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:world_of_wood/Resources/colors.dart';
 import 'dart:async';
 
+import '../Resources/colors.dart';
 import '../Utils/Routes/routes_name.dart';
 import '../View_Model/AuthView_Model.dart';
 
@@ -13,7 +13,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final String _appName = "World of Wood";
+  final String _appName = "WhatBytes task";
   List<bool> _visibleLetters = [];
 
   @override
@@ -41,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final authViewModel = Provider.of<AuthViewModel>(context, listen: false);
     if (authViewModel.currentUser != null) {
       // If user is signed in, navigate to Home
-      Navigator.pushReplacementNamed(context, RoutesName.notes);
+      Navigator.pushReplacementNamed(context, RoutesName.task);
     } else {
       // If user is not signed in, navigate to Login
       Navigator.pushReplacementNamed(context, RoutesName.login);
@@ -56,11 +56,11 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Logo
             Image.asset(
-              'images/wood_logo_bg.png',
+              'images/welcome.png',
               height: 150,
             ),
+
             const SizedBox(height: 20),
 
             // App Name Letter-by-Letter Animation
@@ -78,7 +78,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       textStyle: const TextStyle(
                         fontSize: 26,
                         fontWeight: FontWeight.bold,
-                        color: Appcolors.brown,
+                        color: Appcolors.lightblue,
                       ),
                     ),
                   ),
@@ -90,7 +90,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
             // Loading Indicator
             CircularProgressIndicator(
-              color: Appcolors.brown,
+              color: Appcolors.lightblue,
             ),
           ],
         ),

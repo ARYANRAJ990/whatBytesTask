@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../Utils/Routes/routes_name.dart';
 import '../View_Model/AuthView_Model.dart';
-import 'package:world_of_wood/Resources/colors.dart';
+import '../Resources/colors.dart';
 
 class NavBar extends StatelessWidget {
   const NavBar({super.key});
@@ -16,10 +16,10 @@ class NavBar extends StatelessWidget {
         children: [
           Consumer<AuthViewModel>(
             builder: (context, authViewModel, child) {
-              final userName = authViewModel.currentUser?.displayName ?? "Guest";
+              final userName = authViewModel.userName ?? "Guest"; // Fetch user name
               return DrawerHeader(
                 decoration: const BoxDecoration(
-                  color: Appcolors.brown,
+                    color: Appcolors.lightblue,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,7 +36,7 @@ class NavBar extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      userName,
+                      userName, // Display user's name
                       style: GoogleFonts.pacifico(
                         textStyle: const TextStyle(
                           color: Appcolors.white,
@@ -53,31 +53,27 @@ class NavBar extends StatelessWidget {
             leading: const Icon(Icons.person),
             title: const Text('My Account'),
             onTap: () {
-              // Handle navigation to My Account
               Navigator.pushNamed(context, RoutesName.userdetails);
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.settings),
-            title: const Text('Settings'),
-            onTap: () {
-              // Handle navigation to Settings
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.priority_high),
-            title: const Text('Terms and Conditions'),
-            onTap: () {
-              // Handle navigation to History
-              Navigator.pushNamed(context, RoutesName.terms);
-            },
-          ),
+    //    ListTile(
+    //      leading: const Icon(Icons.settings),
+    //      title: const Text('Settings'),
+    //      onTap: () {
+    //        Navigator.pop(context);
+    //      },
+    //    ),
+    //    ListTile(
+    //      leading: const Icon(Icons.priority_high),
+    //      title: const Text('Terms and Conditions'),
+    //      onTap: () {
+    //        Navigator.pushNamed(context, RoutesName.terms);
+    //      },
+    //    ),
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text('Logout'),
             onTap: () {
-              // Handle logout
               final authViewModel = Provider.of<AuthViewModel>(context, listen: false);
               authViewModel.signOutGoogle(context);
               Navigator.pop(context);

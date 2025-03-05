@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:world_of_wood/View_Model/AuthView_Model.dart';
 import '../../Resources/colors.dart';
 import '../../Utils/Routes/routes_name.dart';
 import '../../Utils/constrainst/Button_Style.dart';
 import '../../Utils/constrainst/Text_Style.dart';
 import '../../Utils/fluttertoast.dart';
+import '../../View_Model/AuthView_Model.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: TextStyle(
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
-                        color: Appcolors.lightbrown,
+                        color: Appcolors.lightblue,
                       ),
                     ),
                     TextSpan(
@@ -48,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: TextStyle(
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
-                        color: Appcolors.brown,
+                        color: Appcolors.black,
                       ),
                     ),
                   ],
@@ -67,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     // Login Image
                     Image.asset(
-                      'images/login.png',
+                      'images/task_login.png',
                       height: 220,
                       width: 320,
                     ),
@@ -106,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                               child: Text(
                                 "Forgot Password?",
-                                style: TextStyle(color: Appcolors.brown),
+                                style: TextStyle(color: Appcolors.lightblue),
                               ),
                             ),
                           ),
@@ -212,7 +212,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () {
                         Navigator.pushNamed(context, RoutesName.signup);
                       },
-                      child: const Text("Don't have an account? Sign Up"),
+                      child: RichText(
+                        text: TextSpan(
+                          text: "Don't have an account? ",
+                          style: const TextStyle(color: Appcolors.black), // Black color for normal text
+                          children: [
+                            TextSpan(
+                              text: "Sign Up",
+                              style: const TextStyle(color: Appcolors.lightblue), // Yellow color for "Sign Up"
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),

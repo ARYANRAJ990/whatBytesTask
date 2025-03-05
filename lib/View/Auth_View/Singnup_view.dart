@@ -44,7 +44,7 @@ class _SignupViewState extends State<SignupView> {
                       style: TextStyle(
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
-                        color: Appcolors.lightbrown,
+                        color: Appcolors.lightblue,
                       ),
                     ),
                     TextSpan(
@@ -52,7 +52,7 @@ class _SignupViewState extends State<SignupView> {
                       style: TextStyle(
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
-                        color: Appcolors.brown,
+                        color: Appcolors.black,
                       ),
                     ),
                   ],
@@ -72,7 +72,7 @@ class _SignupViewState extends State<SignupView> {
 
                     // Signup Image
                     Image.asset(
-                      'images/login.png',
+                      'images/task_login.png',
                       height: 220,
                       width: 320,
                     ),
@@ -198,8 +198,20 @@ class _SignupViewState extends State<SignupView> {
                       onPressed: () {
                         Navigator.pushNamed(context, RoutesName.login);
                       },
-                      child: const Text("Already have an account? Login"),
+                      child: RichText(
+                        text: TextSpan(
+                          text: "Already have an account? ",
+                          style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold), // Black color for normal text
+                          children: [
+                            TextSpan(
+                              text: "Login",
+                              style: const TextStyle(color: Appcolors.lightblue,fontWeight: FontWeight.bold), // Yellow color for "Login"
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
+
                   ],
                 ),
               ),

@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../Utils/fluttertoast.dart';
 import '../Utils/Routes/routes_name.dart';
+import '../View_Model/AuthView_Model.dart';
+import 'package:provider/provider.dart';
 
 class UserViewModel with ChangeNotifier {
   final _firestore = FirebaseFirestore.instance;
@@ -10,21 +12,12 @@ class UserViewModel with ChangeNotifier {
 
   bool isLoading = false;
 
-  // Get current user's ID
   String get userId => _auth.currentUser?.uid ?? '';
 
-  // Function to check if the phone number or Aadhaar number already exists
   Future<bool> checkIfNumberExists(String phone, String aadhaar) async {
     try {
-      QuerySnapshot phoneQuery = await _firestore
-          .collection('users')
-          .where('phone', isEqualTo: phone)
-          .get();
-
-      QuerySnapshot aadhaarQuery = await _firestore
-          .collection('users')
-          .where('aadhaar', isEqualTo: aadhaar)
-          .get();
+      QuerySnapshot phoneQuery = await _firestore.collection('users').where('phone', isEqualTo: phone).get();
+      QuerySnapshot aadhaarQuery = await _firestore.collection('users').where('aadhaar', isEqualTo: aadhaar).get();
 
       return phoneQuery.docs.isNotEmpty || aadhaarQuery.docs.isNotEmpty;
     } catch (e) {
@@ -33,7 +26,6 @@ class UserViewModel with ChangeNotifier {
     }
   }
 
-  // Function to save user details to Firestore
   Future<void> saveUserDetails({
     required String name,
     required String phone,
@@ -44,30 +36,27 @@ class UserViewModel with ChangeNotifier {
     notifyListeners();
 
     try {
-      // Check if phone or Aadhaar already exists
       bool numberExists = await checkIfNumberExists(phone, aadhaar);
-
       if (numberExists) {
-        Utils.flushBarErrorMessage(
-            'The phone number or Aadhaar number is already in use', context);
+        Utils.flushBarErrorMessage('The phone number or Aadhaar number is already in use', context);
         isLoading = false;
         notifyListeners();
         return;
       }
 
-      // Save to Firestore with user ID
       await _firestore.collection('users').doc(userId).set({
         'name': name,
-       // 'phone': phone,
-      //  'aadhaar': aadhaar,
+        'phone': phone,
+        'aadhaar': aadhaar,
         'created_at': Timestamp.now(),
       });
 
-      // Show confirmation message
       Utils.flushBarSuccessMessage('User details saved successfully', context);
 
-      // Navigate to Home Page
-      Navigator.pushNamed(context, RoutesName.notes);
+      // Fetch updated name in AuthViewModel
+      Provider.of<AuthViewModel>(context, listen: false).updateUserName();
+
+      Navigator.pushNamed(context, RoutesName.task);
     } catch (e) {
       Utils.flushBarErrorMessage('Error saving data: $e', context);
     } finally {
