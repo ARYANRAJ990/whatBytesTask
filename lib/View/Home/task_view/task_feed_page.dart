@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-
+import '../../../Resources/colors.dart';
 import '../../../View_Model/taskViewModel.dart';
 import '../../Side_navbar.dart';
 import 'task_list.dart';
@@ -25,22 +25,23 @@ class _TasksPageState extends State<TasksPage> {
     String todayDay = DateFormat.EEEE().format(DateTime.now());
 
     return Scaffold(
+      backgroundColor: Appcolors.white,
       appBar: AppBar(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               "$todayDay, $todayDate",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Appcolors.white),
             ),
             SizedBox(height: 4),
             Text(
               "My Tasks",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Appcolors.white),
             ),
           ],
         ),
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Appcolors.lightblue,
         actions: [
           TaskFilterDropdown(
             selectedPriorityFilter: selectedPriorityFilter,

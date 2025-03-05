@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../Resources/colors.dart';
+
 class TaskFilterDropdown extends StatelessWidget {
   final String selectedPriorityFilter;
   final ValueChanged<String> onChanged;
@@ -12,7 +14,7 @@ class TaskFilterDropdown extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: DropdownButton<String>(
         value: selectedPriorityFilter,
-        dropdownColor: Colors.grey,
+        dropdownColor: Appcolors.grey,
         underline: SizedBox(),
         icon: Icon(Icons.filter_list, color: Colors.white),
         items: ["All", "Low", "Medium", "High"].map((String value) {
