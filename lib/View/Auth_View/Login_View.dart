@@ -18,6 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _isEmailLoginLoading = false;
   bool _isGoogleLoginLoading = false;
+  bool _isPasswordVisible = false; // For password toggle
 
   @override
   Widget build(BuildContext context) {
@@ -85,24 +86,39 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    // Password Input
+
+                    // Password Input with Show/Hide Toggle
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Column(
                         children: [
                           TextField(
                             controller: _passwordController,
-                            obscureText: true,
-                            decoration: const InputDecoration(
+                            obscureText: !_isPasswordVisible,
+                            decoration: InputDecoration(
                               labelText: "Password",
                               border: OutlineInputBorder(),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _isPasswordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: Colors.grey,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _isPasswordVisible = !_isPasswordVisible;
+                                  });
+                                },
+                              ),
                             ),
                           ),
                           Align(
                             alignment: Alignment.centerRight,
                             child: TextButton(
                               onPressed: () {
-                                Navigator.pushNamed(context, RoutesName.resetPassword);
+                                Navigator.pushNamed(
+                                    context, RoutesName.resetPassword);
                               },
                               child: Text(
                                 "Forgot Password?",
@@ -114,6 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     const SizedBox(height: 15),
+
                     // Login with Email Button
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.07,
@@ -133,12 +150,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             setState(() => _isEmailLoginLoading = false);
                           } else {
                             Utils.flushBarErrorMessage(
-                                'Please enter email and password', context);
+                                'Please enter email and password',
+                                context);
                           }
                         },
                         style: LSFbutton_Style,
                         child: _isEmailLoginLoading
-                            ? const CircularProgressIndicator(color: Colors.white)
+                            ? const CircularProgressIndicator(
+                            color: Colors.white)
                             : Text("Login with Email", style: KTextStyle),
                       ),
                     ),
@@ -192,7 +211,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         style: LSFbutton_Style,
                         child: _isGoogleLoginLoading
-                            ? const CircularProgressIndicator(color: Colors.white)
+                            ? const CircularProgressIndicator(
+                            color: Colors.white)
                             : Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -215,11 +235,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: RichText(
                         text: TextSpan(
                           text: "Don't have an account? ",
-                          style: const TextStyle(color: Appcolors.black), // Black color for normal text
+                          style: const TextStyle(color: Appcolors.black),
                           children: [
                             TextSpan(
                               text: "Sign Up",
-                              style: const TextStyle(color: Appcolors.lightblue), // Yellow color for "Sign Up"
+                              style:
+                              const TextStyle(color: Appcolors.lightblue),
                             ),
                           ],
                         ),

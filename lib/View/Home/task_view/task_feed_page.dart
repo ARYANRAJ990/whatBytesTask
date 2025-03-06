@@ -94,13 +94,16 @@ class _TasksPageState extends State<TasksPage> {
                     setState(() {
                       showCompleted = !showCompleted;
                     });
-                    // Show Flushbar message for better visibility
+
+                    // Show Snackbar with a duration
                     Utils.snackBar(
                       showCompleted ? "Completed tasks are now visible" : "Completed tasks are now hidden",
                       context,
                     );
+                    duration: const Duration(seconds: 1);
                   },
                 ),
+
               ],
             ),
           ),
@@ -119,15 +122,15 @@ class _TasksPageState extends State<TasksPage> {
         currentIndex: selectedIndex, // Highlight selected button
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home, color: selectedIndex == 0 ? Appcolors.lightblue : Colors.grey),
-            label: "Home",
+            icon: Icon(Icons.task, color: selectedIndex == 0 ? Appcolors.lightblue : Colors.grey),
+            label: "Tasks",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.add, color: selectedIndex == 1 ? Appcolors.lightblue : Colors.grey),
-            label: "Add Task",
+            icon: Icon(Icons.add_box,size: 28, color: selectedIndex == 1 ? Appcolors.lightblue : Colors.grey),
+            label: "Add Task,",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.warning, color: selectedIndex == 2 ? Appcolors.midyellow : Colors.grey),
+            icon: Icon(Icons.pending_actions, color: selectedIndex == 2 ? Appcolors.midyellow : Colors.grey),
             label: showPending ? "Hide Pending" : "Show Pending",
           ),
         ],

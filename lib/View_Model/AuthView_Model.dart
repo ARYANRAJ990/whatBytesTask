@@ -94,9 +94,18 @@ class AuthViewModel with ChangeNotifier {
         });
         Navigator.pushReplacementNamed(context, RoutesName.task);
       }
-    } catch (e) {
-      print("Error: $e");
-      Utils.flushBarErrorMessage('Error: $e', context);
+    } on FirebaseAuthException catch (e) {
+      String errorMessage = "An error occurred. Please try again.";
+
+      if (e.code == 'email-already-in-use') {
+        errorMessage = "This email is already registered. Please use a different email.";
+      } else if (e.code == 'invalid-email') {
+        errorMessage = "Invalid email format.";
+      } else if (e.code == 'weak-password') {
+        errorMessage = "Password is too weak. Use a stronger password.";
+      }
+
+      Utils.flushBarErrorMessage(errorMessage, context);
     } finally {
       isLoading = false;
       notifyListeners();
@@ -107,11 +116,23 @@ class AuthViewModel with ChangeNotifier {
     try {
       isLoading = true;
       notifyListeners();
+
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       Navigator.pushReplacementNamed(context, RoutesName.task);
-    } catch (e) {
-      print("Error: $e");
-      Utils.flushBarErrorMessage('Error: $e', context);
+    } on FirebaseAuthException catch (e) {
+      String errorMessage = "invalid password.";
+
+      if (e.code == 'user-not-found') {
+        errorMessage = "No user found with this email.";
+      } else if (e.code == 'wrong-password') {
+        errorMessage = "Invalid password. Please try again.";
+      } else if (e.code == 'invalid-email') {
+        errorMessage = "Invalid email format.";
+      } else if (e.code == 'too-many-requests') {
+        errorMessage = "Too many failed attempts. Try again later.";
+      }
+
+      Utils.flushBarErrorMessage(errorMessage, context);
     } finally {
       isLoading = false;
       notifyListeners();
