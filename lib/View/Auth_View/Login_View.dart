@@ -18,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _isEmailLoginLoading = false;
   bool _isGoogleLoginLoading = false;
-  bool _isPasswordVisible = false; // For password toggle
+  bool _isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -86,8 +86,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     const SizedBox(height: 10),
-
-                    // Password Input with Show/Hide Toggle
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Column(
@@ -130,7 +128,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     const SizedBox(height: 15),
-
                     // Login with Email Button
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.07,
@@ -163,8 +160,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
 
                     const SizedBox(height: 20),
-
-                    // OR Divider
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -194,10 +189,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ],
                     ),
-
                     const SizedBox(height: 20),
-
-                    // Google Sign-In Button
+                    // Google Sign-In
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.width * 0.8,

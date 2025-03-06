@@ -4,7 +4,6 @@ class RoutesName{
   static const String task = 'task_feed';
   static const String userProfile = 'User_profile';
   static const String userdetails = 'user_details';
-  static const String terms = 'terms_conditions';
   static const String signup = 'signup';
   static const String resetPassword = 'resetPassword';
 

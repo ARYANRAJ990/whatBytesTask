@@ -1,4 +1,4 @@
-import 'package:fintech_task/Utils/Routes/routes_name.dart';
+import 'package:WhatBytes/Utils/Routes/routes_name.dart';
 import 'package:flutter/material.dart';
 import '../../View/Auth_View/Login_View.dart';
 import '../../View/Navbar_view/Personal_details_add.dart';
@@ -27,9 +27,6 @@ class Routes{
         case RoutesName.userdetails:
         return MaterialPageRoute(
             builder: (BuildContext context) => UserDetails());
-        case RoutesName.terms:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => TermsAndConditionsView());
         case RoutesName.signup:
           return MaterialPageRoute(
               builder: (BuildContext context) => SignupView());

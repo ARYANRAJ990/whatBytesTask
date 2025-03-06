@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FirestoreUserService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Check if phone or Aadhaar exists
   Future<bool> checkIfNumberExists(String phone, String aadhaar) async {
     try {
       final phoneQuery = await _firestore.collection('users').where('phone', isEqualTo: phone).get();

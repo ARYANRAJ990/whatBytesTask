@@ -11,7 +11,6 @@ class FirebaseGoogleService {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
       if (googleUser == null) {
-        // User canceled the sign-in
         return null;
       }
 

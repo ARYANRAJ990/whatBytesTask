@@ -59,8 +59,6 @@ class _SignupViewState extends State<SignupView> {
                 ),
               ),
             ),
-
-            // Main Content
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 50.0),
@@ -69,7 +67,6 @@ class _SignupViewState extends State<SignupView> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(height: 120),
-
                     // Signup Image
                     Image.asset(
                       'images/task_login.png',

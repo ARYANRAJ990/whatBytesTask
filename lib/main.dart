@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (_) => TasksViewModel()),
           ],
           child: MaterialApp(
-            title: 'Finworth task',
+            title: 'task',
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,

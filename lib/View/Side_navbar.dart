@@ -16,7 +16,7 @@ class NavBar extends StatelessWidget {
         children: [
           Consumer<AuthViewModel>(
             builder: (context, authViewModel, child) {
-              final userName = authViewModel.userName ?? "Guest"; // Fetch user name
+              final userName = authViewModel.userName ?? "Recruiter "; // Fetch user name
               return DrawerHeader(
                 decoration: const BoxDecoration(
                     color: Appcolors.lightblue,
@@ -36,7 +36,7 @@ class NavBar extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      userName, // Display user's name
+                      'Recruiter 💖', // Display user's name
                       style: GoogleFonts.pacifico(
                         textStyle: const TextStyle(
                           color: Appcolors.white,

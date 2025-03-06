@@ -23,7 +23,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       body: SingleChildScrollView(
         child: Stack(
           children: [
-            // Positioned "Reset" and "Password" separately
             Positioned(
               top: 70,
               left: 20,
@@ -49,8 +48,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 ],
               ),
             ),
-
-            // Main Content
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 50.0),
@@ -105,7 +102,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
 
                     const SizedBox(height: 20),
-
                     // Back to Login
                     TextButton(
                       onPressed: () {
