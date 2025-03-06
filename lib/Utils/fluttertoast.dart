@@ -61,7 +61,7 @@ class Utils {
   static snackBar(String message, BuildContext context){
     return ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            backgroundColor: Colors.red,
+            backgroundColor: Appcolors.lightblue,
             content: Text(message))
     );
   }

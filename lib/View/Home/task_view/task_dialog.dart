@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../View_Model/taskViewModel.dart';
 
 void showAddTaskDialog(BuildContext context) {
@@ -42,6 +41,23 @@ void showAddTaskDialog(BuildContext context) {
                         return "Description cannot be empty";
                       }
                       return null;
+                    },
+                  ),
+                  ListTile(
+                    title: Text("Due Date: ${selectedDate.toLocal().toString().split(' ')[0]}"),
+                    trailing: Icon(Icons.calendar_today),
+                    onTap: () async {
+                      DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: selectedDate,
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime(2100),
+                      );
+                      if (pickedDate != null) {
+                        setState(() {
+                          selectedDate = pickedDate;
+                        });
+                      }
                     },
                   ),
                   DropdownButtonFormField<String>(

@@ -56,20 +56,6 @@ class NavBar extends StatelessWidget {
               Navigator.pushNamed(context, RoutesName.userdetails);
             },
           ),
-    //    ListTile(
-    //      leading: const Icon(Icons.settings),
-    //      title: const Text('Settings'),
-    //      onTap: () {
-    //        Navigator.pop(context);
-    //      },
-    //    ),
-    //    ListTile(
-    //      leading: const Icon(Icons.priority_high),
-    //      title: const Text('Terms and Conditions'),
-    //      onTap: () {
-    //        Navigator.pushNamed(context, RoutesName.terms);
-    //      },
-    //    ),
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text('Logout'),

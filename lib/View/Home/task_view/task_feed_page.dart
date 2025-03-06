@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import '../../../Resources/colors.dart';
+import '../../../Utils/fluttertoast.dart';
 import '../../../View_Model/taskViewModel.dart';
 import '../../Side_navbar.dart';
 import 'task_list.dart';
@@ -16,7 +17,10 @@ class TasksPage extends StatefulWidget {
 class _TasksPageState extends State<TasksPage> {
   String selectedPriorityFilter = "All";
   bool showCompleted = true;
+  bool showPending = false;
+  bool showDueSoon = false;
   TextEditingController searchController = TextEditingController();
+  int selectedIndex = 0; // Track selected tab
 
   @override
   Widget build(BuildContext context) {
@@ -67,49 +71,88 @@ class _TasksPageState extends State<TasksPage> {
         children: [
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: TextField(
-              controller: searchController,
-              decoration: InputDecoration(
-                hintText: "Search tasks...",
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                prefixIcon: Icon(Icons.search),
-                filled: true,
-                fillColor: Colors.white,
-              ),
-              onChanged: (value) {
-                setState(() {});
-              },
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: searchController,
+                    decoration: InputDecoration(
+                      hintText: "Search tasks...",
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                      prefixIcon: Icon(Icons.search),
+                      filled: true,
+                      fillColor: Colors.white,
+                    ),
+                    onChanged: (value) {
+                      setState(() {}); // Refresh UI
+                    },
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(showCompleted ? Icons.visibility_off : Icons.visibility),
+                  onPressed: () {
+                    setState(() {
+                      showCompleted = !showCompleted;
+                    });
+                    // Show Flushbar message for better visibility
+                    Utils.snackBar(
+                      showCompleted ? "Completed tasks are now visible" : "Completed tasks are now hidden",
+                      context,
+                    );
+                  },
+                ),
+              ],
             ),
           ),
           Expanded(
             child: TaskList(
               selectedPriorityFilter: selectedPriorityFilter,
               showCompleted: showCompleted,
+              showPending: showPending,
+              showDueSoon: showDueSoon,
               searchController: searchController,
             ),
           ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: selectedIndex, // Highlight selected button
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.add),
+            icon: Icon(Icons.home, color: selectedIndex == 0 ? Appcolors.lightblue : Colors.grey),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add, color: selectedIndex == 1 ? Appcolors.lightblue : Colors.grey),
             label: "Add Task",
           ),
           BottomNavigationBarItem(
-            icon: Icon(showCompleted ? Icons.visibility_off : Icons.visibility),
-            label: showCompleted ? "Hide Completed" : "Show Completed",
+            icon: Icon(Icons.warning, color: selectedIndex == 2 ? Appcolors.midyellow : Colors.grey),
+            label: showPending ? "Hide Pending" : "Show Pending",
           ),
         ],
-        onTap: (index) {
-          if (index == 0) {
-            showAddTaskDialog(context);
-          } else {
+          onTap: (index) {
             setState(() {
-              showCompleted = !showCompleted;
+              selectedIndex = index;
+
+              if (index == 0) {
+                showDueSoon = false;
+                showPending = false; // Reset pending filter
+                selectedPriorityFilter = "All";
+              } else if (index == 1) {
+                // Add Task
+                showAddTaskDialog(context);
+              } else if (index == 2) {
+                // Pending button should show only pending tasks
+                showPending = !showPending;
+                showDueSoon = false;
+                // If showing pending tasks, reset filters to avoid other filters interfering
+                if (showPending) {
+                  selectedPriorityFilter = "All"; // Ensure all priorities are included
+                }
+              }
             });
           }
-        },
       ),
     );
   }
